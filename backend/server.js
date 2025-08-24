@@ -1,8 +1,24 @@
-const express = require('express');
-const app = express();
+import { WebSocketServer } from 'ws';
 
-app.use(express.json());
+import { generateResponse } from "../genai/server.js";
 
-app.get('/api/health', (req, res) => res.send({ status: 'ok' }));
+const wss = new WebSocketServer({ port: 8080 });
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+wss.on("connection", ws => {
+  console.log("Client connected");
+
+  ws.on("message", async message => {
+    try {
+      const { text } = JSON.parse(message);
+      const reply = await generateResponse(text);
+      ws.send(reply);
+    } catch (err) {
+      console.error("Error generating response:", err);
+      ws.send("Sorry, something went wrong.");
+    }
+  });
+
+  ws.on("close", () => {
+    console.log("Client disconnected");
+  });
+});
