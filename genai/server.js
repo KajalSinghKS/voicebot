@@ -11,7 +11,9 @@ import {GoogleGenerativeAI} from "@google/generative-ai";
 const genAI=new GoogleGenerativeAI(process.env.API_KEY);
 
 export async function generateResponse(prompt) {
+
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
     const revoltsOnlyPrompt = `
 You are an expert on Revolt Motors, the electric motorcycle company. Your job is to provide helpful, accurate, and engaging information about Revolt Motors — including its products, services, features, specifications, and business operations.
 
