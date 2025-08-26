@@ -37,6 +37,7 @@ npm start
 **Set the env**
 
 The .env file should have the API Key of Gemini to communicate with the Gemini API.
+Keep the env file in the GenAI folder.
 
 
 
